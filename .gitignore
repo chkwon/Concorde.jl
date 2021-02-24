@@ -1,1 +1,6 @@
 /Manifest.toml
+deps/concorde
+deps/qsopt
+deps/lib
+deps/deps.jl
+deps/build.log
