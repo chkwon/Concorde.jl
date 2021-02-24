@@ -4,3 +4,4 @@ deps/qsopt
 deps/lib
 deps/deps.jl
 deps/build.log
+deps/win_dir

@@ -29,7 +29,7 @@ end
 function solve_tsp(dist_mtx::Matrix{Int})
     n_nodes = size(dist_mtx, 1)
     name = randstring(10)
-    filepath = joinpath(pwd(), name * ".tsp")
+    filepath = name * ".tsp"
     lower_diag_row = Int[]
     for i in 1:n_nodes
         for j in 1:i
@@ -59,19 +59,23 @@ function solve_tsp(dist_mtx::Matrix{Int})
         write(io, "EOF\n")
     end
 
-    run(`$(Concorde.CONCORDE_EXECUTABLE) $(filepath)`)
+    status = run(`$(Concorde.CONCORDE_EXECUTABLE) $(filepath)`, wait=false)
+    while !success(status)
+        # 
+    end
 
-    sol_filepath = joinpath(pwd(), name * ".sol")
+    sol_filepath =  name * ".sol"
     opt_tour = read_solution(sol_filepath)
     opt_len = tour_length(opt_tour, dist_mtx)
     
     exts = ["mas", "pul", "sav", "sol", "tsp"]
     for ext in exts
-        file = joinpath(pwd(), "$(name).$(ext)")
+        file =  "$(name).$(ext)"
         rm(file, force=true)
-        file = joinpath(pwd(), "O$(name).$(ext)")
+        file =  "O$(name).$(ext)"
         rm(file, force=true)
     end
+
     return opt_tour, opt_len
 end
 
