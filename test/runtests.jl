@@ -36,7 +36,6 @@ using Test
 
     @testset "Input File" begin
         opt_tour, opt_len = solve_tsp("gr17.tsp")
-        @test opt_len == -1
-        # @test opt_len == 2085
+        @test opt_len == 2085
     end    
 end

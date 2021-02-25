@@ -135,15 +135,22 @@ function solve_tsp(tsp_file::String)
     filepath = name * ".tsp"
     cp(tsp_file, filepath)
 
-    status = run(`$(Concorde.CONCORDE_EXECUTABLE) $(filepath)`, wait=false)
+    io = IOBuffer()
+    status = run(pipeline(`$(Concorde.CONCORDE_EXECUTABLE) $(filepath)`, stdout = io), wait=false,)
     while !success(status)
         # 
     end
+    out = String(take!(io))
+    output = split(out, "\n")
+    obj_val_msg = split(output[end-3])
+    @assert obj_val_msg[1] == "Optimal"
+    @assert obj_val_msg[2] == "Solution:"
+    val = parse(Float64, obj_val_msg[3]) 
+    opt_len = round(Int, val)
 
     sol_filepath =  name * ".sol"
     opt_tour = read_solution(sol_filepath)
-    opt_len = - 1 # Need to implement the calculation of the obj function
-    
+
     cleanup(name)
 
     return opt_tour, opt_len
