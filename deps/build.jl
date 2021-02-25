@@ -1,5 +1,6 @@
 import Libdl
 
+
 const QSOPT_LOCATION = Dict(
     "Darwin" => [
         "https://www.math.uwaterloo.ca/~bico/qsopt/beta/codes/mac64/qsopt.a",
