@@ -47,7 +47,7 @@ opt_tour, opt_len = solve_tsp(x, y; dist="EUC_2D")
 ```
 where `dist` is a choice of the distance function. 
 
-Available `dist` functions are listed in `[TSPLIB_DOC.pdf](http://akira.ruc.dk/~keld/research/LKH/LKH-2.0/DOC/TSPLIB_DOC.pdf)`. (Some may have not been implemented in this package.)
+Available `dist` functions are listed in [`TSPLIB_DOC.pdf`](http://akira.ruc.dk/~keld/research/LKH/LKH-2.0/DOC/TSPLIB_DOC.pdf). (Some may have not been implemented in this package.)
 
 ## Using an input file 
 
