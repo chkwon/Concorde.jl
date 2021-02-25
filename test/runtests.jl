@@ -29,6 +29,9 @@ using Test
         x = rand(n_nodes) .* 10000
         y = rand(n_nodes) .* 10000
         opt_tour, opt_len = solve_tsp(x, y; dist="EUC_2D")
+        opt_tour, opt_len = solve_tsp(x, y; dist="MAN_2D")
+        opt_tour, opt_len = solve_tsp(x, y; dist="MAX_2D")
+        opt_tour, opt_len = solve_tsp(x, y; dist="GEO")        
     end
 
     @testset "Input File" begin
