@@ -5,9 +5,9 @@ using Random, LinearAlgebra
 include("../deps/deps.jl")
 include("dist.jl")
 
-# using TSPLIB
-using Match, DataStructures
-include("tsplib.jl")
+using TSPLIB
+# using Match, DataStructures
+# include("tsplib.jl")
 
 function read_solution(filepath)
     sol = readlines(filepath)
