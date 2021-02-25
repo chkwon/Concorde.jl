@@ -9,7 +9,7 @@ A Julia wrapper for the [Concorde](http://www.math.uwaterloo.ca/tsp/concorde.htm
 
 # License
 
-This Concorde.jl package is in MIT License. However, the underlying Concorde solver is available for free only for academic research as desribed in the [Concorde](http://www.math.uwaterloo.ca/tsp/concorde.html) website.
+This Concorde.jl package is in MIT License. However, the underlying Concorde solver is available for free only for academic research as described in the [Concorde](http://www.math.uwaterloo.ca/tsp/concorde.html) website.
 
 # Installation
 
@@ -17,7 +17,7 @@ This Concorde.jl package is in MIT License. However, the underlying Concorde sol
 ] add https://github.com/chkwon/Concorde.jl
 ```
 
-Currently, this package works in 64-bit operations systmes of Windows 10, macOS, and Ubuntu. 
+Currently, this package works in 64-bit operations systems of Windows 10, macOS, and Ubuntu. 
 
 # Usage
 
