@@ -135,10 +135,11 @@ function solve_tsp(tsp_file::String)
     filepath = name * ".tsp"
     cp(tsp_file, filepath)
 
-    io = IOBuffer()
-    status = run(pipeline(`$(Concorde.CONCORDE_EXECUTABLE) $(filepath)`, stdout = io), wait=false,)
+    io = PipeBuffer()
+    status = run(pipeline(`$(Concorde.CONCORDE_EXECUTABLE) $(filepath)`, stdout = io), wait=false)
     while !success(status)
-        # 
+        # Runs asynchronously and wait. 
+        # Otherwise, the output of Concorde breaks Julia REPL
     end
     out = String(take!(io))
     @show out
