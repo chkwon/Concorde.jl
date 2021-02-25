@@ -1,6 +1,6 @@
 module Concorde
 
-using Random 
+using Random, LinearAlgebra
 
 include("../deps/deps.jl")
 # Write your package code here.
@@ -26,7 +26,22 @@ function tour_length(tour, M)
     return len
 end
 
+
+function cleanup(name)
+    exts = ["mas", "pul", "sav", "sol", "tsp"]
+    for ext in exts
+        file =  "$(name).$(ext)"
+        rm(file, force=true)
+        file =  "O$(name).$(ext)"
+        rm(file, force=true)
+    end
+end
+
 function solve_tsp(dist_mtx::Matrix{Int})
+    if !issymmetric(dist_mtx)
+        error("Asymmetric TSP is not supported.")
+    end
+
     n_nodes = size(dist_mtx, 1)
     name = randstring(10)
     filepath = name * ".tsp"
@@ -68,13 +83,7 @@ function solve_tsp(dist_mtx::Matrix{Int})
     opt_tour = read_solution(sol_filepath)
     opt_len = tour_length(opt_tour, dist_mtx)
     
-    exts = ["mas", "pul", "sav", "sol", "tsp"]
-    for ext in exts
-        file =  "$(name).$(ext)"
-        rm(file, force=true)
-        file =  "O$(name).$(ext)"
-        rm(file, force=true)
-    end
+    cleanup(name)
 
     return opt_tour, opt_len
 end
