@@ -14,6 +14,59 @@ const QSOPT_LOCATION = Dict(
 const CONCORDE_SRC = "http://www.math.uwaterloo.ca/tsp/concorde/downloads/codes/src/co031219.tgz" 
 
 
+const CONCORDE_WIN_EXE_URL = "http://www.math.uwaterloo.ca/tsp/concorde/downloads/codes/cygwin/concorde.exe.gz"
+const CYGWIN1_DLL_URL = "http://mirror.cs.vt.edu/pub/cygwin/cygwin/x86_64/release/cygwin32/cygwin32-2.10.0-1.tar.xz"
+
+
+if Sys.iswindows()
+    if isdefined(Base, :LIBEXECDIR)
+        const exe7z = joinpath(Sys.BINDIR, Base.LIBEXECDIR, "7z.exe")
+    else
+        const exe7z = joinpath(Sys.BINDIR, "7z.exe")
+    end
+
+    function unpack_cmd(file, directory, extension, secondary_extension)
+        if ((extension == ".Z" || extension == ".gz" || extension == ".xz" || extension == ".bz2") &&
+                secondary_extension == ".tar") || extension == ".tgz" || extension == ".tbz"
+            return pipeline(`$exe7z x $file -y -so`, `$exe7z x -si -y -ttar -o$directory`)
+        elseif (extension == ".zip" || extension == ".7z" || extension == ".tar" ||
+                (extension == ".exe" && secondary_extension == ".7z"))
+            return (`$exe7z x $file -y -o$directory`)
+        end
+        error("I don't know how to unpack $file")
+    end
+end
+
+
+function _download_concorde_win()
+    win_dir = joinpath(@__DIR__, "win_dir")
+
+    if isdir(win_dir)
+        rm(win_dir, recursive=true, force=true)
+    end
+    mkdir(win_dir)
+
+    concorde_tarball = joinpath(win_dir, "concorde.exe.gz")
+    download(CONCORDE_WIN_EXE_URL, concorde_tarball)
+    run(`$exe7z x $(concorde_tarball) -y -o$(win_dir)`)
+    concorde_exe = joinpath(win_dir, "concorde.exe")
+
+    cygwin_tarball = joinpath(win_dir, "cygwin32.tar.xz")
+    download(CYGWIN1_DLL_URL, cygwin_tarball)
+    try
+        run(unpack_cmd(cygwin_tarball, win_dir, ".xz", ".tar"))
+    catch e
+        # This will throw a LoadError, but ignore it. We just need cygwin1.dll file.
+    end
+
+    cygwin1_dll_downloaded = joinpath(win_dir, "usr", "i686-pc-cygwin", "sys-root", "usr", "bin", "cygwin1.dll")
+    @show isfile(cygwin1_dll_downloaded)
+    cygwin1_dll = joinpath(win_dir, "cygwin1.dll")
+    cp(cygwin1_dll_downloaded, cygwin1_dll, force=true)
+
+    return concorde_exe
+end
+
 function _build_concorde()
     # Download qsopt
     qsopt_dir = joinpath(@__DIR__, "qsopt")
@@ -77,15 +130,14 @@ function build_concorde()
         return _build_concorde()
     elseif Sys.isapple()
         return _build_concorde()
-    end 
-    # elseif Sys.iswindows()
-    #     return "$(str).dll"
-    # end
+    elseif Sys.iswindows()
+        return _download_concorde_win()
+    end
     error(
         "Unsupported operating system. Only 64-bit linux and macOS " *
         "are supported."
     )
-    return nothing, nothing
+    return nothing
 end
 
 function install_concorde()
@@ -98,8 +150,8 @@ function install_concorde()
     if executable === nothing
         error("Environment variable `CONCORDE_EXECUTABLE` not found.")
     else
-        gr17tsp = joinpath(@__DIR__, "../test/gr17.tsp")
-        run(`$(executable) $(gr17tsp)`)
+        # gr17tsp = joinpath(@__DIR__, "../test/gr17.tsp")
+        # run(`$(executable) $(gr17tsp)`)
     end
 
     open(joinpath(@__DIR__, "deps.jl"), "w") do io

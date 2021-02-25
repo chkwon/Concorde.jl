@@ -17,8 +17,5 @@ using Test
         14   5  16   0 
     ]
     opt_tour, opt_len = solve_tsp(M)
-    @show opt_tour, opt_len
-    # display(M)
-
     @test opt_len == 29
 end
