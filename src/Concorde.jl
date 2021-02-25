@@ -3,6 +3,7 @@ module Concorde
 using Random, LinearAlgebra
 
 include("../deps/deps.jl")
+include("dist.jl")
 # Write your package code here.
 
 function read_solution(filepath)
@@ -89,6 +90,64 @@ function solve_tsp(dist_mtx::Matrix{Int})
 end
 
 
+function solve_tsp(x::Vector{Float64}, y::Vector{Float64}; dist="EUC_2D")
+    n_nodes = length(x)
+    @assert length(x) == length(y)
+
+    name = randstring(10)
+    filepath = name * ".tsp"
+
+    open(filepath, "w") do io
+        write(io, "NAME: $(name)\n")
+        write(io, "TYPE: TSP\n")
+        write(io, "COMMENT: $(name)\n")
+        write(io, "DIMENSION: $(n_nodes)\n")
+        write(io, "EDGE_WEIGHT_TYPE: $(dist)\n")
+        write(io, "EDGE_WEIGHT_FORMAT: FUNCTION \n")
+        write(io, "NODE_COORD_TYPE: TWOD_COORDS \n")
+        write(io, "NODE_COORD_SECTION\n")
+        for i in 1:n_nodes
+            write(io, "$i $(x[i]) $(y[i])\n")
+        end
+        write(io, "EOF\n")
+    end
+
+    status = run(`$(Concorde.CONCORDE_EXECUTABLE) $(filepath)`, wait=false)
+    while !success(status)
+        # 
+    end
+
+    sol_filepath =  name * ".sol"
+    opt_tour = read_solution(sol_filepath)
+    opt_len = tour_length(opt_tour, dist_matrix(x, y, dist=dist))
+    
+    cleanup(name)
+
+    return opt_tour, opt_len
+end
+
+function solve_tsp(tsp_file::String)
+    if !isfile(tsp_file)
+        error("$(tsp_file) is not a file.")
+    end
+
+    name = randstring(10)
+    filepath = name * ".tsp"
+    cp(tsp_file, filepath)
+
+    status = run(`$(Concorde.CONCORDE_EXECUTABLE) $(filepath)`, wait=false)
+    while !success(status)
+        # 
+    end
+
+    sol_filepath =  name * ".sol"
+    opt_tour = read_solution(sol_filepath)
+    opt_len = - 1 # Need to implement the calculation of the obj function
+    
+    cleanup(name)
+
+    return opt_tour, opt_len
+end
 
 
 export solve_tsp
