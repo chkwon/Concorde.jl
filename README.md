@@ -7,6 +7,9 @@
 
 A Julia wrapper for the [Concorde](http://www.math.uwaterloo.ca/tsp/concorde.html) TSP Solver.
 
+# License
+
+This Concorde.jl package is in MIT License. However, the underlying Concorde solver is available for free only for academic research as desribed in the [Concorde](http://www.math.uwaterloo.ca/tsp/concorde.html) website.
 
 # Installation
 
@@ -29,3 +32,5 @@ M = [
 ]
 opt_tour, opt_len = solve_tsp(M)
 ```
+
+The distance matrix `M` must be integer-valued.
