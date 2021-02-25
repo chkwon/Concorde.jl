@@ -1,7 +1,5 @@
 import Libdl
 
-import Pkg
-Pkg.add(url="https://github.com/matago/TSPLIB.jl")
 
 const QSOPT_LOCATION = Dict(
     "Darwin" => [
