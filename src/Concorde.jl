@@ -1,11 +1,13 @@
 module Concorde
 
 using Random, LinearAlgebra
-using TSPLIB
 
 include("../deps/deps.jl")
 include("dist.jl")
-# Write your package code here.
+
+# using TSPLIB
+using Match, DataStructures
+include("tsplib.jl")
 
 function read_solution(filepath)
     sol = readlines(filepath)
@@ -145,7 +147,7 @@ function solve_tsp(tsp_file::String)
     opt_tour = read_solution(sol_filepath)
     # opt_len = - 1 # Need to implement the calculation of the obj function
     
-    tsp = TSPLIB.readTSP(filepath)
+    tsp = readTSP(filepath)
     M = Int.(tsp.weights)
     opt_len = tour_length(opt_tour, M)
 
