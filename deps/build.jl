@@ -1,5 +1,8 @@
 import Libdl
 
+import Pkg
+Pkg.add(url="https://github.com/matago/TSPLIB.jl")
+
 const QSOPT_LOCATION = Dict(
     "Darwin" => [
         "https://www.math.uwaterloo.ca/~bico/qsopt/beta/codes/mac64/qsopt.a",

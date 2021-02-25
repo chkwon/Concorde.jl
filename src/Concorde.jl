@@ -1,6 +1,7 @@
 module Concorde
 
 using Random, LinearAlgebra
+using TSPLIB
 
 include("../deps/deps.jl")
 include("dist.jl")
@@ -29,7 +30,7 @@ end
 
 
 function cleanup(name)
-    exts = ["mas", "pul", "sav", "sol", "tsp"]
+    exts = ["mas", "pul", "sav", "sol", "tsp", "res"]
     for ext in exts
         file =  "$(name).$(ext)"
         rm(file, force=true)
@@ -142,8 +143,12 @@ function solve_tsp(tsp_file::String)
 
     sol_filepath =  name * ".sol"
     opt_tour = read_solution(sol_filepath)
-    opt_len = - 1 # Need to implement the calculation of the obj function
+    # opt_len = - 1 # Need to implement the calculation of the obj function
     
+    tsp = TSPLIB.readTSP(filepath)
+    M = Int.(tsp.weights)
+    opt_len = tour_length(opt_tour, M)
+
     cleanup(name)
 
     return opt_tour, opt_len
