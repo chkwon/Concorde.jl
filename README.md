@@ -21,7 +21,10 @@ Currently, this package works in 64-bit operations systems of Windows 10, macOS,
 
 # Usage
 
-Currently, only support symmetric problems. 
+Only symmetric problems are supported. 
+
+
+## Using a distance matrix
 
 ```julia
 M = [
@@ -32,8 +35,27 @@ M = [
 ]
 opt_tour, opt_len = solve_tsp(M)
 ```
-
 The distance matrix `M` must be integer-valued.
+
+## Using coordinates
+
+```julia
+n_nodes = 10
+x = rand(n_nodes) .* 10000
+y = rand(n_nodes) .* 10000
+opt_tour, opt_len = solve_tsp(x, y; dist="EUC_2D")
+```
+where `dist` is a choice of the distance function. 
+
+Available `dist` functions are listed in `[TSPLIB_DOC.pdf](http://akira.ruc.dk/~keld/research/LKH/LKH-2.0/DOC/TSPLIB_DOC.pdf)`. (Some may have not been implemented in this package.)
+
+## Using an input file 
+
+Using the [TSPLIB format](http://akira.ruc.dk/~keld/research/LKH/LKH-2.0/DOC/TSPLIB_DOC.pdf):
+```julia
+opt_tour, opt_len = solve_tsp("gr17.tsp")
+```
+The returned `opt_len` value is `-1`. At this moment, it is a user's responsibility to calculate the length of the optimal tour.
 
 # Related Projects
 
