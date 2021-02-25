@@ -141,8 +141,14 @@ function solve_tsp(tsp_file::String)
         # 
     end
     out = String(take!(io))
+    @show out
+
     output = split(out, "\n")
+    @show output
+
+    
     obj_val_msg = split(output[end-3])
+
     @assert obj_val_msg[1] == "Optimal"
     @assert obj_val_msg[2] == "Solution:"
     val = parse(Float64, obj_val_msg[3]) 
