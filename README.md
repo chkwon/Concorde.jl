@@ -34,3 +34,11 @@ opt_tour, opt_len = solve_tsp(M)
 ```
 
 The distance matrix `M` must be integer-valued.
+
+# Related Projects
+
+- [Concorde.jl](https://github.com/chkwon/Concorde.jl): Julia wrapper of the [Concorde TSP Solver](http://www.math.uwaterloo.ca/tsp/concorde/index.html).
+- [LKH.jl](https://github.com/chkwon/LKH.jl): Julia wrapper of the [LKH heuristic solver](http://webhotel4.ruc.dk/~keld/research/LKH/).
+- [PyTSP.jl](https://github.com/chkwon/PyTSP.jl): Julia wrapper of [pyconcorde](https://github.com/jvkersch/pyconcorde) and [elkai](https://github.com/filipArena/elkai), whic are Python wrappers of the Concorde and LKH solvers, respectively.
+
+
