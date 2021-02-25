@@ -55,7 +55,6 @@ Using the [TSPLIB format](http://webhotel4.ruc.dk/~keld/research/LKH/LKH-2.0/DOC
 ```julia
 opt_tour, opt_len = solve_tsp("gr17.tsp")
 ```
-The returned `opt_len` value is `-1`. At this moment, it is a user's responsibility to calculate the length of the optimal tour.
 
 # Related Projects
 
