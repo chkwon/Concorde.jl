@@ -60,6 +60,9 @@ opt_tour, opt_len = solve_tsp("gr17.tsp")
 
 - [Concorde.jl](https://github.com/chkwon/Concorde.jl): Julia wrapper of the [Concorde TSP Solver](http://www.math.uwaterloo.ca/tsp/concorde/index.html).
 - [LKH.jl](https://github.com/chkwon/LKH.jl): Julia wrapper of the [LKH heuristic solver](http://webhotel4.ruc.dk/~keld/research/LKH/).
-- [PyTSP.jl](https://github.com/chkwon/PyTSP.jl): Julia wrapper of [pyconcorde](https://github.com/jvkersch/pyconcorde) and [elkai](https://github.com/filipArena/elkai), whic are Python wrappers of the Concorde and LKH solvers, respectively.
+- [TSPLIB.jl](https://github.com/matago/TSPLIB.jl): Reads [TSPLIB-format](http://webhotel4.ruc.dk/~keld/research/LKH/LKH-2.0/DOC/TSPLIB_DOC.pdf) files (`*.tsp`)
+- [PyTSP.jl](https://github.com/chkwon/PyTSP.jl): Julia wrapper of Python TSP libraries: [pyconcorde](https://github.com/jvkersch/pyconcorde) and [elkai](https://github.com/filipArena/elkai), which are Python wrappers of the Concorde and LKH solvers, respectively.
+- [TravelingSalesmanExact.jl](https://github.com/ericphanson/TravelingSalesmanExact.jl): Julia implementation of [Dantzig, Fulkerson, and Johnson's Cutting-Plane Method](https://doi.org/10.1287/opre.2.4.393).
+
 
 
