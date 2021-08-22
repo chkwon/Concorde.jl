@@ -27,6 +27,7 @@ Only symmetric problems are supported.
 ## Using a distance matrix
 
 ```julia
+using Concorde
 M = [
      0  16   7  14
     16   0   3   5
@@ -40,6 +41,7 @@ The distance matrix `M` must be integer-valued.
 ## Using coordinates
 
 ```julia
+using Concorde
 n_nodes = 10
 x = rand(n_nodes) .* 10000
 y = rand(n_nodes) .* 10000
