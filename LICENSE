@@ -1,3 +1,10 @@
+The underlying Concorde solver is available for free only for academic research as described in the Concorde website.
+https://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm
+
+This Concorde.jl package is in MIT License. 
+
+--- 
+
 MIT License
 
 Copyright (c) 2021 Changhyun Kwon <chkwon@gmail.com> and contributors
