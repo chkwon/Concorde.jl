@@ -5,6 +5,7 @@ using TSPLIB
 
 
 include("../deps/deps.jl")
+include("c_api.jl")
 include("dist.jl")
 include("util.jl")
 include("solver.jl")
