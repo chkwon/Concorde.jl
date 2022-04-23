@@ -6,6 +6,10 @@ const QSOPT_LOCATION = Dict(
         "https://www.math.uwaterloo.ca/~bico/qsopt/beta/codes/mac64/qsopt.a",
         "https://www.math.uwaterloo.ca/~bico/qsopt/beta/codes/mac64/qsopt.h"
     ],
+    "DarwinM1" => [
+        "https://www.math.uwaterloo.ca/~bico/qsopt/downloads/codes/m1/qsopt.a",
+        "https://www.math.uwaterloo.ca/~bico/qsopt/downloads/codes/m1/qsopt.h"
+    ],
     "Linux" => [
         "http://www.math.uwaterloo.ca/~bico/qsopt/beta/codes/PIC/qsopt.PIC.a",
         "http://www.math.uwaterloo.ca/~bico/qsopt/beta/codes/PIC/qsopt.h"
@@ -74,7 +78,20 @@ function _build_concorde()
     if !isdir(qsopt_dir)
         mkdir(qsopt_dir)
     end
-    sys_type = Sys.isapple() ? "Darwin" : "Linux"
+    
+    sys_type = "Linux"
+    if Sys.isapple() 
+        if Sys.ARCH == :x86_64
+            sys_type = "Darwin"
+        elseif Sys.ARCH == :aarch64
+            sys_type = "DarwinM1"
+        else
+            error("Unsupported Processor: ", Sys.ARCH)
+        end
+    else
+        sys_type = "Linux"
+    end
+
     download(QSOPT_LOCATION[sys_type][1], joinpath(qsopt_dir, "qsopt.a"))
     download(QSOPT_LOCATION[sys_type][2], joinpath(qsopt_dir, "qsopt.h"))
 
