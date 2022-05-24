@@ -103,7 +103,7 @@ function _build_concorde()
     concorde_src_dir = joinpath(@__DIR__, "concorde")
     cd(concorde_src_dir)
     
-    macflag = Sys.isapple() ? "--host=darwin" : ""
+    macflag = sys_type == "Darwin" ? "--host=darwin" : ""
     cflags = "-fPIC -O2 -g"
     run(`bash -c "CFLAGS='$(cflags)' ./configure --with-qsopt=$(qsopt_dir) $(macflag)"`)
     run(`make clean`)
