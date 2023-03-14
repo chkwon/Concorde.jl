@@ -5,3 +5,6 @@ deps/lib
 deps/deps.jl
 deps/build.log
 deps/win_dir
+
+*.sol
+*.tsp
