@@ -20,7 +20,6 @@ const CONCORDE_SRC = "http://www.math.uwaterloo.ca/tsp/concorde/downloads/codes/
 
 
 const CONCORDE_WIN_EXE_URL = "http://www.math.uwaterloo.ca/tsp/concorde/downloads/codes/cygwin/concorde.exe.gz"
-const CYGWIN1_DLL_URL = "http://mirror.cs.vt.edu/pub/cygwin/cygwin/x86_64/release/cygwin32/cygwin32-2.10.0-1.tar.xz"
 
 
 if Sys.iswindows()
@@ -57,7 +56,6 @@ function _download_concorde_win()
     concorde_exe = joinpath(win_dir, "concorde.exe")
 
     cygwin_tarball = joinpath(@__DIR__, "cygwin32-2.10.0-1.tar.xz")
-    # download(CYGWIN1_DLL_URL, cygwin_tarball)
     try
         run(unpack_cmd(cygwin_tarball, win_dir, ".xz", ".tar"))
     catch e
@@ -116,31 +114,6 @@ function _build_concorde()
     
     return executable
 
-    # # Build a shared library from the static library
-    # for ext in ["a", "h"]
-    #     cp("concorde.$ext", joinpath(lib_dir, "concorde.$ext"), force=true)
-    # end
-    # cd(lib_dir)
-    # run(`ar -x concorde.a`)
-
-    # shared_lib_filename = "libconcorde.so"
-    # if Sys.islinux()
-    #     shared_lib_filename = "libconcorde.so"
-    #     run(`bash -c "gcc -shared *.o -o $(shared_lib_filename)"`)
-    # elseif Sys.isapple()
-    #     shared_lib_filename = "libconcorde.dylib"
-    #     run(`bash -c "gcc -dynamiclib *.o -o $(shared_lib_filename)"`)
-    # else
-    #     error(
-    #         "Unsupported operating system. Only 64-bit linux and macOS " *
-    #         "are supported."
-    #     )
-    # end
-
-    # shared_lib = joinpath(lib_dir, shared_lib_filename)
-    # run(`bash -c "rm -rf *.o"`)
-
-    # return shared_lib, executable
 end
 
 function build_concorde()
@@ -167,9 +140,6 @@ function install_concorde()
 
     if executable === nothing
         error("Environment variable `CONCORDE_EXECUTABLE` not found.")
-    else
-        # gr17tsp = joinpath(@__DIR__, "../test/gr17.tsp")
-        # run(`$(executable) $(gr17tsp)`)
     end
 
     open(joinpath(@__DIR__, "deps.jl"), "w") do io
