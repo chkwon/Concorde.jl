@@ -56,8 +56,8 @@ function _download_concorde_win()
     run(`$exe7z x $(concorde_tarball) -y -o$(win_dir)`)
     concorde_exe = joinpath(win_dir, "concorde.exe")
 
-    cygwin_tarball = joinpath(win_dir, "cygwin32.tar.xz")
-    download(CYGWIN1_DLL_URL, cygwin_tarball)
+    cygwin_tarball = joinpath(@__DIR__, "cygwin32-2.10.0-1.tar.xz")
+    # download(CYGWIN1_DLL_URL, cygwin_tarball)
     try
         run(unpack_cmd(cygwin_tarball, win_dir, ".xz", ".tar"))
     catch e
