@@ -1,7 +1,7 @@
 name = "Concorde"
 uuid = "df6a336b-a67f-4155-81fc-4f05fe893652"
 authors = ["Changhyun Kwon <chkwon@gmail.com> and contributors"]
-version = "0.1.2"
+version = "0.1.3"
 
 [deps]
 Libdl = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
