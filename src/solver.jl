@@ -1,5 +1,5 @@
 function solve_tsp(dist_mtx::Matrix{Int})
-    if !issymmetric(dist_mtx)
+    if ! issymmetric(dist_mtx)
         error("Asymmetric TSP is not supported.")
     end
 
@@ -20,7 +20,7 @@ function solve_tsp(dist_mtx::Matrix{Int})
         push!(rows, join(lower_diag_row[s:t], " "))
     end
 
-    name = randstring(10)
+    name = randstring(10) :: String
     filename = name * ".tsp"
     open(filename, "w") do io
         write(io, "NAME: $(name)\n")
@@ -44,7 +44,7 @@ function solve_tsp(x::Vector{Float64}, y::Vector{Float64}; dist="EUC_2D")
     n_nodes = length(x)
     @assert length(x) == length(y)
 
-    name = randstring(10)
+    name = randstring(10) :: String
     filename = name * ".tsp"
 
     open(filename, "w") do io
@@ -79,18 +79,19 @@ end
 
 
 function __solve_tsp__(tsp_file::String)
-    status = run(`$(Concorde.CONCORDE_EXECUTABLE) $(tsp_file)`, wait=false)
+    exe = CONCORDE_EXECUTABLE :: String
+    status = run(`$(exe) $(tsp_file)`, wait=false)
     while !success(status)
         # 
     end    
 
-    name = split(basename(tsp_file), ".")[1]
+    name = splitext(basename(tsp_file))[1] :: String
     sol_filepath =  name * ".sol"
-    opt_tour = read_solution(sol_filepath)
+    opt_tour = read_solution(sol_filepath) :: Vector{Int}
     
-    tsp = readTSP(tsp_file)
-    M = Int.(tsp.weights)
-    opt_len = tour_length(opt_tour, M)
+    tsp = readTSP(tsp_file) :: TSPLIB.TSP
+    M = Int.(tsp.weights) :: Matrix{Int}
+    opt_len = tour_length(opt_tour, M) :: Int
 
     cleanup(name)
 
