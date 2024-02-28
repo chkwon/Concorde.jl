@@ -15,6 +15,7 @@ This Concorde.jl package is in MIT License. However, the underlying Concorde sol
 
 ```julia
 ] add Concorde
+] build Concorde
 ```
 
 Currently, this package works in 64-bit operations systems of Windows 10, macOS, and Ubuntu. 
