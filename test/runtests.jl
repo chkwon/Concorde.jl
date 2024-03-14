@@ -15,13 +15,29 @@ using Test
     end
 
     @testset "Asymmetric TSP" begin
+
+        # instance 1
         M = [
              0   1   7  14
             16   0   1   5
              7   5   0   1
              1   3  16   0 
         ]
-        @test_throws ErrorException solve_tsp(M)
+        opt_tour, opt_len = solve_tsp(M)
+        @show opt_tour, opt_len
+        @test opt_tour == [1, 2, 3, 4]
+        @test opt_len == 4
+
+        # instance 2
+        M = [
+             0  5 19
+             12 0 15
+             3  9 0
+        ]
+        opt_tour, opt_len = solve_tsp(M)
+        @show opt_tour, opt_len
+        @test opt_tour == [1, 2, 3]
+        @test opt_len == 23
     end
 
     @testset "Coordinates" begin

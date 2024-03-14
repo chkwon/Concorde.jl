@@ -1,6 +1,41 @@
+#=
+# Roy Jonker, Ton Volgenant. Transforming asymmetric into symmetric traveling salesman problems
+# (https://doi.org/10.1016/0167-6377(83)90048-2)
+=#
+function convert_atsp_to_tsp(dist_mtx::Matrix{Int})
+
+    n_nodes = size(dist_mtx, 1)
+
+    # infinity constant
+    U::Int = sum(filter(x::Int -> x > 0, dist_mtx)) + 1
+
+    # negative constant
+    M::Int = U
+
+    # symmetric matrix
+    sym_dist_mtx::Matrix{Int} = fill(U, (2 * n_nodes, 2 * n_nodes))
+
+    # fill
+    for i::Int in 1:n_nodes
+        for j::Int in 1:n_nodes
+            value::Int = i == j ? - M : dist_mtx[i, j]
+
+            sym_dist_mtx[j, n_nodes + i] = value
+            sym_dist_mtx[n_nodes + i, j] = value
+        end
+    end
+
+    return sym_dist_mtx, M
+end
+
 function solve_tsp(dist_mtx::Matrix{Int})
-    if ! issymmetric(dist_mtx)
-        error("Asymmetric TSP is not supported.")
+    
+    is_sym_mtx = issymmetric(dist_mtx)
+
+    # asymmetric case
+    if ! is_sym_mtx
+#        error("Asymmetric TSP is not supported.")
+        dist_mtx, M::Int = convert_atsp_to_tsp(dist_mtx)
     end
 
     n_nodes = size(dist_mtx, 1)
@@ -36,7 +71,15 @@ function solve_tsp(dist_mtx::Matrix{Int})
         write(io, "EOF\n")
     end
 
-    return __solve_tsp__(filename)
+    opt_tour, opt_len = __solve_tsp__(filename)
+
+    # asymmetric case
+    if ! is_sym_mtx
+        opt_tour = opt_tour[isodd.(eachindex(opt_tour))]
+        opt_len = Int(opt_len + M * n_nodes / 2)
+    end
+
+    return opt_tour, opt_len
 end
 
 
