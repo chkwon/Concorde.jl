@@ -1,5 +1,5 @@
 import Libdl
-
+using Pkg
 
 const QSOPT_LOCATION = Dict(
     "Darwin" => [
@@ -23,11 +23,13 @@ const CONCORDE_WIN_EXE_URL = "http://www.math.uwaterloo.ca/tsp/concorde/download
 
 
 if Sys.iswindows()
-    if isdefined(Base, :LIBEXECDIR)
-        const exe7z = joinpath(Sys.BINDIR, Base.LIBEXECDIR, "7z.exe")
-    else
-        const exe7z = joinpath(Sys.BINDIR, "7z.exe")
-    end
+    # if isdefined(Base, :LIBEXECDIR)
+    #     const exe7z = joinpath(Sys.BINDIR, Base.LIBEXECDIR, "7z.exe")
+    # else
+    #     const exe7z = joinpath(Sys.BINDIR, "7z.exe")
+    # end
+
+    exe7z = Pkg.PlatformEngines.exe7z()
 
     function unpack_cmd(file, directory, extension, secondary_extension)
         if ((extension == ".Z" || extension == ".gz" || extension == ".xz" || extension == ".bz2") &&
