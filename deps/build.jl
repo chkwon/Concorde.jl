@@ -102,7 +102,7 @@ function _build_concorde()
     cd(concorde_src_dir)
     
     macflag = Sys.isapple() ? "--host=darwin" : ""
-    cflags = "-fPIC -O2 -g"
+    cflags = "-std=gnu89 -fPIC -O2 -g"
     run(`bash -c "CFLAGS='$(cflags)' ./configure --with-qsopt=$(qsopt_dir) $(macflag)"`)
     run(`make clean`)
     run(`make`)
