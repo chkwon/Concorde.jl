@@ -1,7 +1,7 @@
 # Concorde.jl
 
 
-![Build Status](https://github.com/chkwon/Concorde.jl/actions/workflows/ci.yml/badge.svg)
+[![Build Status](https://github.com/chkwon/Concorde.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/chkwon/Concorde.jl/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/chkwon/Concorde.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/chkwon/Concorde.jl)
 
 
