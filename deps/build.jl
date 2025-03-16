@@ -1,5 +1,5 @@
 import Libdl
-import Pkg
+using Pkg
 
 const QSOPT_LOCATION = Dict(
     "Darwin" => [
