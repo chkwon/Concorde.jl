@@ -29,7 +29,7 @@ if Sys.iswindows()
     #     const exe7z = joinpath(Sys.BINDIR, "7z.exe")
     # end
 
-    const exe7z = Pkg.PlatformEngines.find7z()
+    const exe7z = Pkg.PlatformEngines.exe7z()
 
     function unpack_cmd(file, directory, extension, secondary_extension)
         if ((extension == ".Z" || extension == ".gz" || extension == ".xz" || extension == ".bz2") &&
