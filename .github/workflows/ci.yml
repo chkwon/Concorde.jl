@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [max_fix]
+    branches: [mac_fix]
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
