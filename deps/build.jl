@@ -21,13 +21,34 @@ const CONCORDE_SRC = "http://www.math.uwaterloo.ca/tsp/concorde/downloads/codes/
 
 const CONCORDE_WIN_EXE_URL = "http://www.math.uwaterloo.ca/tsp/concorde/downloads/codes/cygwin/concorde.exe.gz"
 
-
 if Sys.iswindows()
-    if isdefined(Base, :LIBEXECDIR)
-        const exe7z = joinpath(Sys.BINDIR, Base.LIBEXECDIR, "7z.exe")
-    else
-        const exe7z = joinpath(Sys.BINDIR, "7z.exe")
+    local_exe7z = Sys.which("7z")
+    if local_exe7z === nothing || !isfile(local_exe7z)
+        candidate = isdefined(Base, :LIBEXECDIR) ?
+            joinpath(Sys.BINDIR, Base.LIBEXECDIR, "7z.exe") :
+            joinpath(Sys.BINDIR, "7z.exe")
+        if isfile(candidate)
+            local_exe7z = candidate
+        end
     end
+
+    # If 7z.exe is still not found, install it using Chocolatey.
+    if local_exe7z === nothing || !isfile(local_exe7z)
+        choco_path = Sys.which("choco")
+        if choco_path === nothing
+            error("7z.exe not found and Chocolatey is not available. Please install 7zip manually.")
+        end
+        @info "7z.exe not found. Installing 7zip via Chocolatey..."
+        run(`choco install 7zip.commandline -y`)
+
+        candidate = raw"C:\Program Files\7-Zip\7z.exe"
+        if !isfile(candidate)
+            error("Chocolatey installation did not yield 7z.exe at the expected location: $candidate")
+        end
+        local_exe7z = candidate
+    end
+
+    global const exe7z = local_exe7z
 
     function unpack_cmd(file, directory, extension, secondary_extension)
         if ((extension == ".Z" || extension == ".gz" || extension == ".xz" || extension == ".bz2") &&
@@ -40,7 +61,6 @@ if Sys.iswindows()
         error("I don't know how to unpack $file")
     end
 end
-
 
 function _download_concorde_win()
     win_dir = joinpath(@__DIR__, "win_dir")
